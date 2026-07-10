@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>祖宗君 | Personal Profile</title>
+    <style>
+        /* 全局变量 + GitHub风格主题 */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f6f8fa;
+            --card-bg: #ffffff;
+            --text-main: #24292f;
+            --text-sub: #656d76;
+            --border: #d0d7de;
+            --accent: #0969da;
+            --tag-bg: #ddf4ff;
+            --tag-text: #0969da;
+            --shadow: rgba(0,0,0,0.08) 0 1px 3px;
+        }
+        html.dark-mode {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --card-bg: #161b22;
+            --text-main: #f0f6fc;
+            --text-sub: #8b949e;
+            --border: #30363d;
+            --accent: #58a6ff;
+            --tag-bg: #1f2f41;
+            --tag-text: #58a6ff;
+            --shadow: rgba(0,0,0,0.3) 0 1px 3px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 30px 15px;
+        }
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+        }
+        /* 侧边个人信息栏 */
+        .sidebar {
+            position: sticky;
+            top: 30px;
+            height: fit-content;
+        }
+        .avatar {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+        .name {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .bio {
+            color: var(--text-sub);
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-sub);
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        .meta-item a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .meta-item a:hover {
+            text-decoration: underline;
+        }
+        .social-group {
+            margin: 20px 0;
+            display: flex;
+            gap: 12px;
+        }
+        .social-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 14px;
+        }
+        .social-btn:hover {
+            background: var(--bg-secondary);
+        }
+        /* 右侧主内容 */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        /* 技能标签 */
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .skill-tag {
+            padding: 4px 10px;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            border-radius: 12px;
+            font-size: 13px;
+        }
+        /* 经历时间线 */
+        .timeline-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+        .timeline-time {
+            font-size: 13px;
+            color: var(--text-sub);
+        }
+        .timeline-title {
+            font-weight: 600;
+            margin: 4px 0;
+        }
+        /* 项目卡片 */
+        .repo-card {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .repo-name {
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 16px;
+        }
+        .repo-desc {
+            color: var(--text-sub);
+            font-size: 14px;
+            margin: 6px 0 10px;
+        }
+        /* 明暗切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            top: 16px;
+            right: 20px;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--card-bg);
+            color: var(--text-main);
+            cursor: pointer;
+            z-index: 99;
+        }
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: static;
+                text-align: center;
+            }
+            .avatar {
+                width: 180px;
+                height: 180px;
+            }
+            .meta-item {
+                justify-content: center;
+            }
+            .social-group {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 明暗切换按钮 -->
+    <button class="theme-toggle" id="toggleBtn">🌙 深色模式</button>
+
+    <div class="container">
+        <!-- 左侧侧边栏 -->
+        <aside class="sidebar">
+            <img src="assets/zuzongjun.jpg" alt="祖宗君头像" class="avatar">
+            <h1 class="name">祖宗君</h1>
+            <p class="bio">腹黑老摩羯，小白代码人</p>
+            <div class="meta-item">
+                <span>📍</span>
+                <span>沪港</span>
+            </div>
+            <div class="meta-item">
+                <span>✉️</span>
+                <a href="mailto:zuzongjun@gmail.com">zuzongjun@gmail.com</a>
+            </div>
+            <div class="social-group">
+                <a href="https://github.com/zuzongjun" target="_blank" class="social-btn">GitHub</a>
+            </div>
+            <div class="section-card">
+                <h3 class="section-title">关于我</h3>
+                <p>本科会计，15年金融从业，目前港漂自学代码</p>
+            </div>
+        </aside>
+
+        <!-- 右侧主内容区 -->
+        <main class="main-content">
+            <!-- 技能板块 -->
+            <div class="section-card">
+                <h2 class="section-title">Skills / 技能规划</h2>
+                <div class="tag-list">
+                    <span class="skill-tag">Excel（十年主力工具）</span>
+                    <span class="skill-tag">Python（学习中）</span>
+                    <span class="skill-tag">AI Agent</span>
+                    <span class="skill-tag">英语（复健）</span>
+                    <span class="skill-tag">粤语（入门）</span>
+                </div>
+            </div>
+
+            <!-- 工作&教育经历 -->
+            <div class="section-card">
+                <h2 class="section-title">Experience / 履历</h2>
+                <div class="timeline-item">
+                    <div class="timeline-time">2024 — 至今</div>
+                    <div class="timeline-title">陆浦香港</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2012 — 2023</div>
+                    <div class="timeline-title">陆浦投资</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2008 — 2011</div>
+                    <div class="timeline-title">平安信托</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2004 — 2008</div>
+                    <div class="timeline-title">复旦大学管理学院 · 会计学本科</div>
+                </div>
+            </div>
+
+            <!-- 项目仓库板块（预留空白，后续可自行新增） -->
+            <div class="section-card">
+                <h2 class="section-title">Repositories / 项目</h2>
+                <div class="repo-card">
+                    <div class="repo-name">让我想想</div>
+                    <div class="repo-desc">暂无完整项目，后续逐步开发金融量化、自动化工具类项目</div>
+                    <div class="tag-list">
+                        <span class="skill-tag">待开发</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 深色/浅色模式切换逻辑
+        const html = document.documentElement;
+        const toggleBtn = document.getElementById('toggleBtn');
+        // 读取本地存储主题
+        const savedTheme = localStorage.getItem('site-theme');
+        if (savedTheme === 'dark') {
+            html.classList.add('dark-mode');
+            toggleBtn.textContent = '☀️ 浅色模式';
+        }
+        // 切换事件
+        toggleBtn.addEventListener('click', () => {
+            const isDark = html.classList.toggle('dark-mode');
+            if (isDark) {
+                localStorage.setItem('site-theme', 'dark');
+                toggleBtn.textContent = '☀️ 浅色模式';
+            } else {
+                localStorage.setItem('site-theme', 'light');
+                toggleBtn.textContent = '🌙 深色模式';
+            }
+        });
+    </script>
+</body>
+</html>
